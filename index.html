@@ -14,7 +14,9 @@
     body {
       margin: 0;
       padding: 0;
-      background: radial-gradient(circle at top, #bfdbfe 0, #f9fafb 40%, #e5e7eb 100%);
+      /* stronger colour on outer area */
+      background:
+        radial-gradient(circle at top, #bfdbfe 0, #e0f2fe 45%, #bfdbfe 100%);
       min-height: 100vh;
       display: flex;
       justify-content: center;
@@ -55,6 +57,17 @@
       gap: 8px;
     }
 
+    .title-pill {
+      background: #eef2ff;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      color: #4f46e5;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
     .subtitle {
       font-size: 14px;
       color: #4b5563;
@@ -73,10 +86,11 @@
     }
 
     .chips-row span {
-      font-size: 22px;
+      font-size: 14px;
       background: #eff6ff;
       padding: 4px 8px;
       border-radius: 999px;
+      color: #1e40af;
     }
 
     .tabs {
@@ -110,7 +124,7 @@
     }
 
     .card {
-      background: #f9fafb;
+      background: linear-gradient(135deg, rgba(219,234,254,0.92), #f9fafb);
       padding: 16px;
       border-radius: 16px;
       margin-bottom: 12px;
@@ -125,9 +139,32 @@
       margin-bottom: 4px;
     }
 
+    .image-box {
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .image-box-inner {
+      display: inline-flex;
+      padding: 6px;
+      border-radius: 18px;
+      background: #fef3c7;
+      border: 1px solid #fde68a;
+      max-width: 100%;
+    }
+
+    /* STANDARD RESPONSIVE IMAGE SIZE */
+    .image-box img {
+      width: clamp(80px, 22vw, 160px);
+      height: clamp(80px, 22vw, 160px);
+      object-fit: contain;
+      border-radius: 14px;
+      display: block;
+    }
+
     #question-text {
       font-size: 18px;
-      margin-bottom: 8px;
+      margin: 10px 0 8px;
     }
 
     .options {
@@ -334,10 +371,13 @@
   <div class="container">
     <div class="header">
       <div class="title-block">
+        <div class="title-pill">
+          <span>🎒 Unit: Fun with English</span>
+        </div>
         <h1>✨ English Fun Time</h1>
         <div class="subtitle">
           Practice <strong>this/that/these/those</strong>, <strong>a/an/the</strong> and jumbled sentences.<br>
-          Swati's son made it, please buy it from me. 🥲
+          Questions don’t repeat until all are used in a round.
         </div>
       </div>
       <div class="mascot">🦊📚</div>
@@ -362,6 +402,13 @@
     </div>
 
     <div class="card">
+      <div class="label">Picture</div>
+      <div class="image-box">
+        <div class="image-box-inner">
+          <img id="question-image" src="" alt="Question picture">
+        </div>
+      </div>
+
       <div class="label">Question</div>
       <div id="question-text"></div>
 
@@ -397,137 +444,159 @@
   </div>
 
   <script>
-    // --------------- QUESTION BANK (your sentences) ----------------
+    // --------------- QUESTION BANK (your sentences + image paths) ----------------
+    // Place actual images in ./images and keep names or adjust paths.
 
     const questionBank = {
-      // DEMONSTRATIVES: using your 1–4 sentences as fill-in-the-blank
       demonstratives: [
         {
           type: "mcq",
           text: "______ is my red ball.",
           options: ["This", "That", "These", "Those"],
-          answer: "This"
+          answer: "This",
+          image: "images/ball.png",
+          alt: "A red ball"
         },
         {
           type: "mcq",
           text: "______ is a big tree.",
           options: ["This", "That", "These", "Those"],
-          answer: "That"
+          answer: "That",
+          image: "images/tree.png",
+          alt: "A big tree"
         },
         {
           type: "mcq",
           text: "______ are my new shoes.",
           options: ["This", "That", "These", "Those"],
-          answer: "These"
+          answer: "These",
+          image: "images/shoes.png",
+          alt: "A pair of new shoes"
         },
         {
           type: "mcq",
           text: "______ are birds in the sky.",
           options: ["This", "That", "These", "Those"],
-          answer: "Those"
+          answer: "Those",
+          image: "images/birds.png",
+          alt: "Birds flying in the sky"
         }
-        // Sentences 5 & 6 are reused in Articles section
       ],
 
-      // ARTICLES: all your blanks + “The colour of the dress is blue.”
       articles: [
         {
           type: "mcq",
           text: "I see ___ cat.",
           options: ["a", "an", "the"],
-          answer: "a"
+          answer: "a",
+          image: "images/cat.png",
+          alt: "A cat"
         },
         {
           type: "mcq",
           text: "She has ___ apple.",
           options: ["a", "an", "the"],
-          answer: "an"
+          answer: "an",
+          image: "images/apple.png",
+          alt: "A red apple"
         },
         {
           type: "mcq",
           text: "He wants ___ book.",
           options: ["a", "an", "the"],
-          answer: "a"
+          answer: "a",
+          image: "images/book.png",
+          alt: "A blue book"
         },
         {
           type: "mcq",
           text: "We saw ___ elephant.",
           options: ["a", "an", "the"],
-          answer: "an"
+          answer: "an",
+          image: "images/elephant.png",
+          alt: "An elephant"
         },
         {
           type: "mcq",
           text: "This is ___ pen.",
           options: ["a", "an", "the"],
-          answer: "a"
+          answer: "a",
+          image: "images/pen.png",
+          alt: "A pen"
         },
         {
           type: "mcq",
           text: "There is ___ orange on the table.",
           options: ["a", "an", "the"],
-          answer: "an"
+          answer: "an",
+          image: "images/orange.png",
+          alt: "An orange on a table"
         },
         {
           type: "mcq",
           text: "___ colour of the dress is blue.",
           options: ["a", "an", "the"],
-          answer: "the"
+          answer: "the",
+          image: "images/dress.png",
+          alt: "A blue dress"
         }
       ],
 
-      // JUMBLED: your 6 “is / This / cat → This is cat.” type sentences
       jumbled: [
         {
           type: "jumbled",
           correct: "This is cat.",
-          words: ["is", "This", "cat"]
+          words: ["is", "This", "cat"],
+          image: "images/cat.png",
+          alt: "A cat"
         },
         {
           type: "jumbled",
           correct: "That is dog.",
-          words: ["is", "That", "dog"]
+          words: ["is", "That", "dog"],
+          image: "images/dog.png",
+          alt: "A dog"
         },
         {
           type: "jumbled",
           correct: "These are pens.",
-          words: ["are", "These", "pens"]
+          words: ["are", "These", "pens"],
+          image: "images/pens.png",
+          alt: "Some pens"
         },
         {
           type: "jumbled",
           correct: "Those are birds.",
-          words: ["are", "Those", "birds"]
+          words: ["are", "Those", "birds"],
+          image: "images/birds.png",
+          alt: "Birds in the sky"
         },
         {
           type: "jumbled",
           correct: "This is ball.",
-          words: ["is", "This", "ball"]
+          words: ["is", "This", "ball"],
+          image: "images/ball.png",
+          alt: "A ball"
         },
         {
           type: "jumbled",
           correct: "Those are chairs.",
-          words: ["are", "Those", "chairs"]
+          words: ["are", "Those", "chairs"],
+          image: "images/chairs.png",
+          alt: "Chairs"
         }
       ]
     };
 
-    // ------------------- STATE -------------------
-
     let currentCategory = "demonstratives";
-
-    // For question order per category
-    let orderMap = {};   // category -> shuffled indices array
-    let indexMap = {};   // category -> current index in that array
-
-    // For scores per category
-    let scoreMap = {};   // category -> { asked, correct }
-
-    // To avoid double-counting on multiple checks of same question
+    let orderMap = {};
+    let indexMap = {};
+    let scoreMap = {};
     let hasCheckedCurrentQuestion = false;
-
-    // ------------------- DOM REFS -------------------
 
     const tabButtons = document.querySelectorAll(".tab-btn");
     const questionTextEl = document.getElementById("question-text");
+    const questionImageEl = document.getElementById("question-image");
     const optionsContainer = document.getElementById("options-container");
     const jumbledContainer = document.getElementById("jumbled-container");
     const feedbackEl = document.getElementById("feedback");
@@ -540,15 +609,11 @@
     const resetBtn = document.getElementById("reset-btn");
     const confettiContainer = document.getElementById("confetti-container");
 
-    // ------------------- HELPERS -------------------
-
     function shuffleArray(arr) {
       const a = arr.slice();
       for (let i = a.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        const tmp = a[i];
-        a[i] = a[j];
-        a[j] = tmp;
+        [a[i], a[j]] = [a[j], a[i]];
       }
       return a;
     }
@@ -574,7 +639,6 @@
       indexMap[category] = indexMap[category] + 1;
       const len = orderMap[category].length;
       if (indexMap[category] >= len) {
-        // End of cycle: reshuffle, start again
         orderMap[category] = shuffleArray(orderMap[category]);
         indexMap[category] = 0;
       }
@@ -596,11 +660,8 @@
     function updateScoreDisplay() {
       ensureCategory(currentCategory);
       const s = scoreMap[currentCategory];
-      scoreEl.textContent =
-        "Score this section: " + s.correct + " / " + s.asked;
+      scoreEl.textContent = "Score this section: " + s.correct + " / " + s.asked;
     }
-
-    // ------------------- CONFETTI -------------------
 
     function triggerConfetti() {
       const pieces = 60;
@@ -609,7 +670,7 @@
       for (let i = 0; i < pieces; i++) {
         const piece = document.createElement("div");
         piece.className = "confetti-piece";
-        const left = Math.random() * 100;  // vw
+        const left = Math.random() * 100;
         const delay = Math.random() * 300;
         const color = colors[Math.floor(Math.random() * colors.length)];
         const rotate = Math.floor(Math.random() * 360);
@@ -621,13 +682,9 @@
 
         confettiContainer.appendChild(piece);
 
-        setTimeout(() => {
-          piece.remove();
-        }, 2000);
+        setTimeout(() => piece.remove(), 2000);
       }
     }
-
-    // ------------------- RENDER -------------------
 
     function renderQuestion() {
       ensureCategory(currentCategory);
@@ -642,12 +699,20 @@
       answerStrip.innerHTML = "";
       jumbledChips.innerHTML = "";
 
+      if (q.image) {
+        questionImageEl.src = q.image;
+        questionImageEl.alt = q.alt || "Question picture";
+      } else {
+        questionImageEl.src = "";
+        questionImageEl.alt = "";
+      }
+
       if (q.type === "mcq") {
         jumbledContainer.style.display = "none";
         optionsContainer.style.display = "flex";
         questionTextEl.textContent = q.text;
 
-        q.options.forEach(function (opt) {
+        q.options.forEach(opt => {
           const btn = document.createElement("button");
           btn.className = "option-btn";
 
@@ -660,8 +725,8 @@
           btn.appendChild(bullet);
           btn.appendChild(label);
 
-          btn.addEventListener("click", function () {
-            document.querySelectorAll(".option-btn").forEach(function (b) {
+          btn.addEventListener("click", () => {
+            document.querySelectorAll(".option-btn").forEach(b => {
               b.classList.remove("selected");
               b.removeAttribute("data-selected");
             });
@@ -672,29 +737,26 @@
           optionsContainer.appendChild(btn);
         });
 
-      } else if (q.type === "jumbled") {
+      } else {
         optionsContainer.style.display = "none";
         jumbledContainer.style.display = "block";
         questionTextEl.textContent = "Tap the words to make a correct sentence.";
 
         const shuffledWords = shuffleArray(q.words);
-
-        shuffledWords.forEach(function (word) {
+        shuffledWords.forEach(word => {
           const chip = document.createElement("div");
           chip.className = "chip";
           chip.textContent = word;
 
-          chip.addEventListener("click", function () {
-            if (chip.classList.contains("used")) {
-              return;
-            }
+          chip.addEventListener("click", () => {
+            if (chip.classList.contains("used")) return;
             chip.classList.add("used");
 
             const chosen = document.createElement("div");
             chosen.className = "chip";
             chosen.textContent = word;
 
-            chosen.addEventListener("click", function () {
+            chosen.addEventListener("click", () => {
               chosen.remove();
               chip.classList.remove("used");
             });
@@ -708,13 +770,10 @@
 
       const total = qList.length;
       const currentNumber = (indexMap[currentCategory] || 0) + 1;
-      counterEl.textContent =
-        "Question " + currentNumber + " of " + total + " in this round";
+      counterEl.textContent = "Question " + currentNumber + " of " + total + " in this round";
 
       updateScoreDisplay();
     }
-
-    // ------------------- CHECKING -------------------
 
     function checkAnswer() {
       ensureCategory(currentCategory);
@@ -724,10 +783,7 @@
       let correctNow = false;
 
       if (q.type === "mcq") {
-        const selectedBtn = document.querySelector(
-          ".option-btn[data-selected='true']"
-        );
-
+        const selectedBtn = document.querySelector(".option-btn[data-selected='true']");
         if (!selectedBtn) {
           feedbackEl.textContent = "Please select an option.";
           feedbackEl.className = "feedback incorrect";
@@ -735,24 +791,18 @@
         }
 
         const chosen = selectedBtn.textContent.trim();
-        const correct = q.answer;
-
-        if (chosen === correct) {
+        if (chosen === q.answer) {
           feedbackEl.textContent = "Correct! 🎉";
           feedbackEl.className = "feedback correct";
           correctNow = true;
           triggerConfetti();
         } else {
-          feedbackEl.textContent =
-            'Not quite. Correct answer: "' + correct + '".';
+          feedbackEl.textContent = `Not quite. Correct answer: "${q.answer}".`;
           feedbackEl.className = "feedback incorrect";
         }
 
-      } else if (q.type === "jumbled") {
-        const userWords = Array.from(answerStrip.children).map(function (el) {
-          return el.textContent;
-        });
-
+      } else {
+        const userWords = Array.from(answerStrip.children).map(el => el.textContent);
         if (userWords.length === 0) {
           feedbackEl.textContent = "Tap the words to build the sentence.";
           feedbackEl.className = "feedback incorrect";
@@ -768,24 +818,18 @@
           correctNow = true;
           triggerConfetti();
         } else {
-          feedbackEl.textContent =
-            'Try again. Correct sentence: "' + q.correct + '"';
+          feedbackEl.textContent = `Try again. Correct sentence: "${q.correct}"`;
           feedbackEl.className = "feedback incorrect";
         }
       }
 
-      // Update score only the FIRST time we check this question
       if (!hasCheckedCurrentQuestion) {
         scoreMap[currentCategory].asked += 1;
-        if (correctNow) {
-          scoreMap[currentCategory].correct += 1;
-        }
+        if (correctNow) scoreMap[currentCategory].correct += 1;
         hasCheckedCurrentQuestion = true;
         updateScoreDisplay();
       }
     }
-
-    // ------------------- NAVIGATION -------------------
 
     function nextQuestion() {
       advanceQuestion(currentCategory);
@@ -793,26 +837,20 @@
     }
 
     function resetSection() {
-      // Reset order and scores only for current category
       delete orderMap[currentCategory];
       delete indexMap[currentCategory];
       scoreMap[currentCategory] = { asked: 0, correct: 0 };
       renderQuestion();
     }
 
-    tabButtons.forEach(function (btn) {
-      btn.addEventListener("click", function () {
+    tabButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
         const cat = btn.getAttribute("data-category");
-        if (cat === currentCategory) {
-          return;
-        }
+        if (cat === currentCategory) return;
 
         currentCategory = cat;
-        tabButtons.forEach(function (b) {
-          b.classList.remove("active");
-        });
+        tabButtons.forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
-
         renderQuestion();
       });
     });
@@ -820,8 +858,6 @@
     checkBtn.addEventListener("click", checkAnswer);
     nextBtn.addEventListener("click", nextQuestion);
     resetBtn.addEventListener("click", resetSection);
-
-    // ------------------- INIT -------------------
 
     (function init() {
       ensureCategory(currentCategory);
