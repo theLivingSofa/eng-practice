@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>English Practice – Demonstratives, Articles & Jumbled Sentences</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background:
+        radial-gradient(circle at top, #bfdbfe 0, #e0f2fe 45%, #bfdbfe 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .container {
+      background: #ffffff;
+      margin: 24px;
+      padding: 24px;
+      max-width: 760px;
+      width: 100%;
+      border-radius: 24px;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 26px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .title-pill {
+      background: #eef2ff;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      color: #4f46e5;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #4b5563;
+    }
+
+    .mascot {
+      font-size: 40px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+    }
+
+    .chips-row {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .chips-row span {
+      font-size: 14px;
+      background: #eff6ff;
+      padding: 4px 8px;
+      border-radius: 999px;
+      color: #1e40af;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 16px 0;
+    }
+
+    .tab-btn {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid #cbd5e1;
+      background: #f3f4f6;
+      cursor: pointer;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tab-icon {
+      font-size: 16px;
+    }
+
+    .tab-btn.active {
+      background: #2563eb;
+      color: #ffffff;
+      border-color: #2563eb;
+    }
+
+    .card {
+      background: linear-gradient(135deg, rgba(219,234,254,0.92), #f9fafb);
+      padding: 16px;
+      border-radius: 16px;
+      margin-bottom: 12px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .label {
+      font-size: 12px;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+
+    .image-box {
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .image-box-inner {
+      display: inline-flex;
+      padding: 6px;
+      border-radius: 18px;
+      background: #fef3c7;
+      border: 1px solid #fde68a;
+      max-width: 100%;
+    }
+
+    /* Standard responsive image size */
+    .image-box img {
+      width: clamp(80px, 22vw, 160px);
+      height: clamp(80px, 22vw, 160px);
+      object-fit: contain;
+      border-radius: 14px;
+      display: block;
+    }
+
+    #question-text {
+      font-size: 18px;
+      margin: 10px 0 8px;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .option-btn {
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid #d1d5db;
+      background: #ffffff;
+      cursor: pointer;
+      text-align: left;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .option-bullet {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      border: 2px solid #9ca3af;
+      flex-shrink: 0;
+    }
+
+    .option-btn.selected .option-bullet {
+      border-color: #2563eb;
+      background: #2563eb;
+    }
+
+    .option-btn.selected {
+      border-color: #2563eb;
+      background: #e0ecff;
+    }
+
+    #jumbled-container {
+      margin-top: 8px;
+    }
+
+    .chips-holder {
+      padding: 8px;
+      border-radius: 10px;
+      background: #eef2ff;
+      min-height: 46px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .chips-holder.answer {
+      background: #dcfce7;
+    }
+
+    .chip {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #dbeafe;
+      font-size: 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .chip.used {
+      opacity: 0.4;
+      background: #9ca3af;
+      cursor: default;
+    }
+
+    .feedback {
+      font-size: 14px;
+      min-height: 20px;
+      margin-top: 6px;
+    }
+
+    .feedback.correct {
+      color: #16a34a;
+    }
+
+    .feedback.incorrect {
+      color: #dc2626;
+    }
+
+    .status-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 6px;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .counter {
+      font-size: 12px;
+      color: #6b7280;
+      text-align: right;
+    }
+
+    .score {
+      font-size: 12px;
+      color: #374151;
+      text-align: left;
+      font-weight: 500;
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    button.primary,
+    button.secondary {
+      padding: 10px 20px;
+      font-size: 15px;
+      border-radius: 999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    button.primary {
+      border: none;
+      background: #16a34a;
+      color: #ffffff;
+    }
+
+    button.secondary {
+      border: 1px solid #cbd5f5;
+      background: #eff6ff;
+      color: #1d4ed8;
+    }
+
+    button.primary span,
+    button.secondary span {
+      font-size: 16px;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        margin: 12px;
+        padding: 16px;
+      }
+      .controls {
+        flex-direction: column;
+      }
+
+      button.primary,
+      button.secondary {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    /* Confetti */
+
+    #confetti-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 0;
+      pointer-events: none;
+      overflow: visible;
+      z-index: 9999;
+    }
+
+    .confetti-piece {
+      position: fixed;
+      width: 8px;
+      height: 14px;
+      background: #f97316;
+      opacity: 0.9;
+      border-radius: 2px;
+      animation: fall 1600ms linear forwards;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translate3d(0, -20px, 0) rotateZ(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translate3d(0, 120vh, 0) rotateZ(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Payment reminder modal */
+
+    #payment-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+    }
+
+    #payment-modal .modal-content {
+      background: #ffffff;
+      padding: 18px 20px;
+      border-radius: 18px;
+      max-width: 360px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.35);
+    }
+
+    #payment-modal h2 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+
+    #payment-modal p {
+      margin: 0 0 14px;
+      font-size: 14px;
+      color: #4b5563;
+    }
+
+    #payment-close {
+      padding: 8px 18px;
+      border-radius: 999px;
+      border: none;
+      background: #2563eb;
+      color: #ffffff;
+      font-size: 14px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="confetti-container"></div>
+
+  <!-- Payment reminder modal -->
+  <div id="payment-modal">
+    <div class="modal-content">
+      <h2>💳 Payment Reminder</h2>
+      <p>
+        Please pay Ayush!!<br>
+        My UPI number: 7050213751<br>
+        Cost: 1000
+      </p>
+      <button id="payment-close">Got it</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="header">
+      <div class="title-block">
+        <div class="title-pill">
+          <span>🎒 Unit: Fun with English</span>
+        </div>
+        <h1>✨ English Fun Time</h1>
+        <div class="subtitle">
+          Practice <strong>this/that/these/those</strong>, <strong>a/an/the</strong> and jumbled sentences.<br>
+          Questions don’t repeat until all are used in a round.
+        </div>
+      </div>
+      <div class="mascot">🦊📚</div>
+    </div>
+
+    <div class="chips-row">
+      <span>📘 This / That / These / Those</span>
+      <span>✏️ a / an / the</span>
+      <span>🧩 Make a sentence</span>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-category="demonstratives">
+        <span class="tab-icon">🎯</span> Demonstratives
+      </button>
+      <button class="tab-btn" data-category="articles">
+        <span class="tab-icon">✏️</span> Articles
+      </button>
+      <button class="tab-btn" data-category="jumbled">
+        <span class="tab-icon">🧩</span> Jumbled Sentences
+      </button>
+    </div>
+
+    <div class="card">
+      <div class="label">Picture</div>
+      <div class="image-box">
+        <div class="image-box-inner">
+          <img id="question-image" src="" alt="Question picture">
+        </div>
+      </div>
+
+      <div class="label">Question</div>
+      <div id="question-text"></div>
+
+      <!-- MCQ options -->
+      <div id="options-container" class="options"></div>
+
+      <!-- Jumbled sentence touch UI -->
+      <div id="jumbled-container" style="display:none;">
+        <div class="label">Tap words in correct order</div>
+        <div class="chips-holder answer" id="answer-strip"></div>
+        <div class="chips-holder" id="jumbled-chips"></div>
+      </div>
+
+      <div id="feedback" class="feedback"></div>
+
+      <div class="status-row">
+        <div id="score" class="score"></div>
+        <div id="counter" class="counter"></div>
+      </div>
+
+      <div class="controls">
+        <button id="check-btn" class="primary">
+          <span>✅</span> Check Answer
+        </button>
+        <button id="next-btn" class="secondary">
+          <span>➡️</span> Next Question
+        </button>
+        <button id="reset-btn" class="secondary">
+          <span>🔁</span> Reset Section
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --------------- QUESTION BANK (with image paths) ----------------
+    // Put images in ./images or adjust paths.
+
+    const questionBank = {
+      demonstratives: [
+        {
+          type: "mcq",
+          text: "______ is my red ball.",
+          options: ["This", "That", "These", "Those"],
+          answer: "This",
+          image: "images/ball.png",
+          alt: "A red ball"
+        },
+        {
+          type: "mcq",
+          text: "______ is a big tree.",
+          options: ["This", "That", "These", "Those"],
+          answer: "That",
+          image: "images/tree.png",
+          alt: "A big tree"
+        },
+        {
+          type: "mcq",
+          text: "______ are my new shoes.",
+          options: ["This", "That", "These", "Those"],
+          answer: "These",
+          image: "images/shoes.png",
+          alt: "A pair of new shoes"
+        },
+        {
+          type: "mcq",
+          text: "______ are birds in the sky.",
+          options: ["This", "That", "These", "Those"],
+          answer: "Those",
+          image: "images/birds.png",
+          alt: "Birds flying in the sky"
+        }
+      ],
+
+      articles: [
+        {
+          type: "mcq",
+          text: "I see ___ cat.",
+          options: ["a", "an", "the"],
+          answer: "a",
+          image: "images/cat.png",
+          alt: "A cat"
+        },
+        {
+          type: "mcq",
+          text: "She has ___ apple.",
+          options: ["a", "an", "the"],
+          answer: "an",
+          image: "images/apple.png",
+          alt: "A red apple"
+        },
+        {
+          type: "mcq",
+          text: "He wants ___ book.",
+          options: ["a", "an", "the"],
+          answer: "a",
+          image: "images/book.png",
+          alt: "A blue book"
+        },
+        {
+          type: "mcq",
+          text: "We saw ___ elephant.",
+          options: ["a", "an", "the"],
+          answer: "an",
+          image: "images/elephant.png",
+          alt: "An elephant"
+        },
+        {
+          type: "mcq",
+          text: "This is ___ pen.",
+          options: ["a", "an", "the"],
+          answer: "a",
+          image: "images/pen.png",
+          alt: "A pen"
+        },
+        {
+          type: "mcq",
+          text: "There is ___ orange on the table.",
+          options: ["a", "an", "the"],
+          answer: "an",
+          image: "images/orange.png",
+          alt: "An orange on a table"
+        },
+        {
+          type: "mcq",
+          text: "___ colour of the dress is blue.",
+          options: ["a", "an", "the"],
+          answer: "the",
+          image: "images/dress.png",
+          alt: "A blue dress"
+        }
+      ],
+
+      jumbled: [
+        {
+          type: "jumbled",
+          correct: "This is cat.",
+          words: ["is", "This", "cat"],
+          image: "images/cat.png",
+          alt: "A cat"
+        },
+        {
+          type: "jumbled",
+          correct: "That is dog.",
+          words: ["is", "That", "dog"],
+          image: "images/dog.png",
+          alt: "A dog"
+        },
+        {
+          type: "jumbled",
+          correct: "These are pens.",
+          words: ["are", "These", "pens"],
+          image: "images/pens.png",
+          alt: "Some pens"
+        },
+        {
+          type: "jumbled",
+          correct: "Those are birds.",
+          words: ["are", "Those", "birds"],
+          image: "images/birds.png",
+          alt: "Birds in the sky"
+        },
+        {
+          type: "jumbled",
+          correct: "This is ball.",
+          words: ["is", "This", "ball"],
+          image: "images/ball.png",
+          alt: "A ball"
+        },
+        {
+          type: "jumbled",
+          correct: "Those are chairs.",
+          words: ["are", "Those", "chairs"],
+          image: "images/chairs.png",
+          alt: "Chairs"
+        }
+      ]
+    };
+
+    let currentCategory = "demonstratives";
+    let orderMap = {};
+    let indexMap = {};
+    let scoreMap = {};
+    let hasCheckedCurrentQuestion = false;
+
+    const tabButtons = document.querySelectorAll(".tab-btn");
+    const questionTextEl = document.getElementById("question-text");
+    const questionImageEl = document.getElementById("question-image");
+    const optionsContainer = document.getElementById("options-container");
+    const jumbledContainer = document.getElementById("jumbled-container");
+    const feedbackEl = document.getElementById("feedback");
+    const counterEl = document.getElementById("counter");
+    const scoreEl = document.getElementById("score");
+    const answerStrip = document.getElementById("answer-strip");
+    const jumbledChips = document.getElementById("jumbled-chips");
+    const checkBtn = document.getElementById("check-btn");
+    const nextBtn = document.getElementById("next-btn");
+    const resetBtn = document.getElementById("reset-btn");
+    const confettiContainer = document.getElementById("confetti-container");
+
+    // Payment modal elements
+    const paymentModal = document.getElementById("payment-modal");
+    const paymentCloseBtn = document.getElementById("payment-close");
+
+    function shuffleArray(arr) {
+      const a = arr.slice();
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function ensureCategory(category) {
+      if (!orderMap[category]) {
+        const len = questionBank[category].length;
+        orderMap[category] = shuffleArray([...Array(len).keys()]);
+        indexMap[category] = 0;
+      }
+      if (!scoreMap[category]) {
+        scoreMap[category] = { asked: 0, correct: 0 };
+      }
+    }
+
+    function getCurrentQuestionIndex(category) {
+      ensureCategory(category);
+      return orderMap[category][indexMap[category]];
+    }
+
+    function advanceQuestion(category) {
+      ensureCategory(category);
+      indexMap[category] = indexMap[category] + 1;
+      const len = orderMap[category].length;
+      if (indexMap[category] >= len) {
+        orderMap[category] = shuffleArray(orderMap[category]);
+        indexMap[category] = 0;
+      }
+    }
+
+    function clearFeedback() {
+      feedbackEl.textContent = "";
+      feedbackEl.className = "feedback";
+    }
+
+    function normalizeSentence(text) {
+      return text
+        .toLowerCase()
+        .replace(/[.?!]/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function updateScoreDisplay() {
+      ensureCategory(currentCategory);
+      const s = scoreMap[currentCategory];
+      scoreEl.textContent = "Score this section: " + s.correct + " / " + s.asked;
+    }
+
+    function triggerConfetti() {
+      const pieces = 60;
+      const colors = ["#f97316", "#22c55e", "#3b82f6", "#ec4899", "#eab308"];
+
+      for (let i = 0; i < pieces; i++) {
+        const piece = document.createElement("div");
+        piece.className = "confetti-piece";
+        const left = Math.random() * 100;
+        const delay = Math.random() * 300;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const rotate = Math.floor(Math.random() * 360);
+
+        piece.style.left = left + "vw";
+        piece.style.background = color;
+        piece.style.transform = `translate3d(0, -20px, 0) rotateZ(${rotate}deg)`;
+        piece.style.animationDelay = delay + "ms";
+
+        confettiContainer.appendChild(piece);
+        setTimeout(() => piece.remove(), 2000);
+      }
+    }
+
+    // ---------- Payment reminder popup helpers ----------
+
+    function openPaymentModal() {
+      if (!paymentModal) return;
+      paymentModal.style.display = "flex";
+    }
+
+    function closePaymentModal() {
+      if (!paymentModal) return;
+      paymentModal.style.display = "none";
+    }
+
+    if (paymentCloseBtn && paymentModal) {
+      paymentCloseBtn.addEventListener("click", closePaymentModal);
+      paymentModal.addEventListener("click", (e) => {
+        if (e.target === paymentModal) closePaymentModal();
+      });
+    }
+
+    // This is the function you can delete later if you want
+    // The main code only calls it if typeof paymentReminder === "function"
+    function paymentReminder() {
+      openPaymentModal();
+    }
+
+    // ------------------- RENDER -------------------
+
+    function renderQuestion() {
+      ensureCategory(currentCategory);
+      hasCheckedCurrentQuestion = false;
+
+      const qList = questionBank[currentCategory];
+      const qIndex = getCurrentQuestionIndex(currentCategory);
+      const q = qList[qIndex];
+
+      clearFeedback();
+      optionsContainer.innerHTML = "";
+      answerStrip.innerHTML = "";
+      jumbledChips.innerHTML = "";
+
+      if (q.image) {
+        questionImageEl.src = q.image;
+        questionImageEl.alt = q.alt || "Question picture";
+      } else {
+        questionImageEl.src = "";
+        questionImageEl.alt = "";
+      }
+
+      if (q.type === "mcq") {
+        jumbledContainer.style.display = "none";
+        optionsContainer.style.display = "flex";
+        questionTextEl.textContent = q.text;
+
+        q.options.forEach(opt => {
+          const btn = document.createElement("button");
+          btn.className = "option-btn";
+
+          const bullet = document.createElement("div");
+          bullet.className = "option-bullet";
+
+          const label = document.createElement("span");
+          label.textContent = opt;
+
+          btn.appendChild(bullet);
+          btn.appendChild(label);
+
+          btn.addEventListener("click", () => {
+            document.querySelectorAll(".option-btn").forEach(b => {
+              b.classList.remove("selected");
+              b.removeAttribute("data-selected");
+            });
+            btn.classList.add("selected");
+            btn.setAttribute("data-selected", "true");
+          });
+
+          optionsContainer.appendChild(btn);
+        });
+
+      } else {
+        optionsContainer.style.display = "none";
+        jumbledContainer.style.display = "block";
+        questionTextEl.textContent = "Tap the words to make a correct sentence.";
+
+        const shuffledWords = shuffleArray(q.words);
+        shuffledWords.forEach(word => {
+          const chip = document.createElement("div");
+          chip.className = "chip";
+          chip.textContent = word;
+
+          chip.addEventListener("click", () => {
+            if (chip.classList.contains("used")) return;
+            chip.classList.add("used");
+
+            const chosen = document.createElement("div");
+            chosen.className = "chip";
+            chosen.textContent = word;
+
+            chosen.addEventListener("click", () => {
+              chosen.remove();
+              chip.classList.remove("used");
+            });
+
+            answerStrip.appendChild(chosen);
+          });
+
+          jumbledChips.appendChild(chip);
+        });
+      }
+
+      const total = qList.length;
+      const currentNumber = (indexMap[currentCategory] || 0) + 1;
+      counterEl.textContent = "Question " + currentNumber + " of " + total + " in this round";
+
+      updateScoreDisplay();
+    }
+
+    // ------------------- CHECKING -------------------
+
+    function checkAnswer() {
+      ensureCategory(currentCategory);
+      const qIndex = getCurrentQuestionIndex(currentCategory);
+      const q = questionBank[currentCategory][qIndex];
+
+      let correctNow = false;
+
+      if (q.type === "mcq") {
+        const selectedBtn = document.querySelector(".option-btn[data-selected='true']");
+        if (!selectedBtn) {
+          feedbackEl.textContent = "Please select an option.";
+          feedbackEl.className = "feedback incorrect";
+          return;
+        }
+
+        const chosen = selectedBtn.textContent.trim();
+        if (chosen === q.answer) {
+          feedbackEl.textContent = "Correct! 🎉";
+          feedbackEl.className = "feedback correct";
+          correctNow = true;
+          triggerConfetti();
+          if (typeof paymentReminder === "function") {
+            paymentReminder();
+          }
+        } else {
+          feedbackEl.textContent = `Not quite. Correct answer: "${q.answer}".`;
+          feedbackEl.className = "feedback incorrect";
+        }
+
+      } else {
+        const userWords = Array.from(answerStrip.children).map(el => el.textContent);
+        if (userWords.length === 0) {
+          feedbackEl.textContent = "Tap the words to build the sentence.";
+          feedbackEl.className = "feedback incorrect";
+          return;
+        }
+
+        const userSentence = normalizeSentence(userWords.join(" "));
+        const correctSentence = normalizeSentence(q.correct);
+
+        if (userSentence === correctSentence) {
+          feedbackEl.textContent = "Correct! 🎉";
+          feedbackEl.className = "feedback correct";
+          correctNow = true;
+          triggerConfetti();
+          if (typeof paymentReminder === "function") {
+            paymentReminder();
+          }
+        } else {
+          feedbackEl.textContent = `Try again. Correct sentence: "${q.correct}"`;
+          feedbackEl.className = "feedback incorrect";
+        }
+      }
+
+      if (!hasCheckedCurrentQuestion) {
+        scoreMap[currentCategory].asked += 1;
+        if (correctNow) scoreMap[currentCategory].correct += 1;
+        hasCheckedCurrentQuestion = true;
+        updateScoreDisplay();
+      }
+    }
+
+    // ------------------- NAVIGATION -------------------
+
+    function nextQuestion() {
+      advanceQuestion(currentCategory);
+      renderQuestion();
+    }
+
+    function resetSection() {
+      delete orderMap[currentCategory];
+      delete indexMap[currentCategory];
+      scoreMap[currentCategory] = { asked: 0, correct: 0 };
+      renderQuestion();
+    }
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const cat = btn.getAttribute("data-category");
+        if (cat === currentCategory) return;
+
+        currentCategory = cat;
+        tabButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        renderQuestion();
+      });
+    });
+
+    checkBtn.addEventListener("click", checkAnswer);
+    nextBtn.addEventListener("click", nextQuestion);
+    resetBtn.addEventListener("click", resetSection);
+
+    (function init() {
+      ensureCategory(currentCategory);
+      renderQuestion();
+    })();
+  </script>
+</body>
+</html>
