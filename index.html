@@ -95,7 +95,7 @@
     }
 
     .option-btn {
-      padding: 8px 10px;
+      padding: 10px 12px;
       border-radius: 8px;
       border: 1px solid #d1d5db;
       background: #ffffff;
@@ -159,38 +159,46 @@
       margin-top: 4px;
     }
 
+    .score {
+      font-size: 12px;
+      color: #374151;
+      text-align: left;
+      margin-top: 4px;
+    }
+
     .controls {
       display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 16px;
       flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 10px;
-      justify-content: space-between;
+    }
+
+    button.primary,
+    button.secondary {
+      padding: 12px 24px;
+      font-size: 16px;
+      border-radius: 12px;
+      cursor: pointer;
     }
 
     button.primary {
-      padding: 8px 14px;
-      border-radius: 999px;
       border: none;
       background: #16a34a;
       color: #ffffff;
-      font-size: 14px;
-      cursor: pointer;
     }
 
     button.secondary {
-      padding: 8px 14px;
-      border-radius: 999px;
       border: 1px solid #cbd5f5;
       background: #eff6ff;
       color: #1d4ed8;
-      font-size: 14px;
-      cursor: pointer;
     }
 
     @media (max-width: 480px) {
       .controls {
         flex-direction: column;
       }
+
       button.primary,
       button.secondary {
         width: 100%;
@@ -229,121 +237,145 @@
 
       <div id="feedback" class="feedback"></div>
       <div id="counter" class="counter"></div>
-    </div>
+      <div id="score" class="score"></div>
 
-    <div class="controls">
-      <button id="check-btn" class="primary">Check Answer</button>
-      <button id="next-btn" class="secondary">Next Question</button>
+      <div class="controls">
+        <button id="check-btn" class="primary">Check Answer</button>
+        <button id="next-btn" class="secondary">Next Question</button>
+        <button id="reset-btn" class="secondary">Reset Section</button>
+      </div>
     </div>
   </div>
 
   <script>
-    // ------------------- Question bank -------------------
+    // --------------- QUESTION BANK (your sentences) ----------------
 
     const questionBank = {
+      // DEMONSTRATIVES: using your 1–4 sentences as fill-in-the-blank
       demonstratives: [
         {
           type: "mcq",
-          text: "______ is my book on the table.",
-          options: ["This", "These", "Those", "They"],
+          text: "______ is my red ball.",
+          options: ["This", "That", "These", "Those"],
           answer: "This"
         },
         {
           type: "mcq",
-          text: "______ are my friends standing over there.",
-          options: ["That", "These", "Those", "They"],
-          answer: "Those"
-        },
-        {
-          type: "mcq",
-          text: "Please pass me ______ pencil.",
-          options: ["This", "That", "Those", "These"],
+          text: "______ is a big tree.",
+          options: ["This", "That", "These", "Those"],
           answer: "That"
         },
         {
           type: "mcq",
-          text: "______ apples in your hand look fresh.",
-          options: ["This", "These", "That", "They"],
+          text: "______ are my new shoes.",
+          options: ["This", "That", "These", "Those"],
           answer: "These"
         },
         {
           type: "mcq",
-          text: "______ is my sister; she is a doctor.",
-          options: ["Those", "These", "This", "They"],
-          answer: "This"
+          text: "______ are birds in the sky.",
+          options: ["This", "That", "These", "Those"],
+          answer: "Those"
         }
+        // Sentences 5 & 6 are reused in Articles section
       ],
 
+      // ARTICLES: all your blanks + “The colour of the dress is blue.”
       articles: [
         {
           type: "mcq",
-          text: "I saw ______ elephant at the zoo.",
-          options: ["a", "an", "the"],
-          answer: "an"
-        },
-        {
-          type: "mcq",
-          text: "Please close ______ door.",
-          options: ["a", "an", "the"],
-          answer: "the"
-        },
-        {
-          type: "mcq",
-          text: "She is drinking ______ glass of milk.",
+          text: "I see ___ cat.",
           options: ["a", "an", "the"],
           answer: "a"
         },
         {
           type: "mcq",
-          text: "We went to ______ park near our house.",
+          text: "She has ___ apple.",
           options: ["a", "an", "the"],
-          answer: "the"
+          answer: "an"
         },
         {
           type: "mcq",
-          text: "He is ______ honest man.",
+          text: "He wants ___ book.",
+          options: ["a", "an", "the"],
+          answer: "a"
+        },
+        {
+          type: "mcq",
+          text: "We saw ___ elephant.",
           options: ["a", "an", "the"],
           answer: "an"
+        },
+        {
+          type: "mcq",
+          text: "This is ___ pen.",
+          options: ["a", "an", "the"],
+          answer: "a"
+        },
+        {
+          type: "mcq",
+          text: "There is ___ orange on the table.",
+          options: ["a", "an", "the"],
+          answer: "an"
+        },
+        {
+          type: "mcq",
+          text: "___ colour of the dress is blue.",
+          options: ["a", "an", "the"],
+          answer: "the"
         }
       ],
 
+      // JUMBLED: your 6 “is / This / cat → This is cat.” type sentences
       jumbled: [
         {
           type: "jumbled",
-          correct: "This is my favorite book.",
-          words: ["favorite", "This", "is", "my", "book."]
+          correct: "This is cat.",
+          words: ["is", "This", "cat"]
         },
         {
           type: "jumbled",
-          correct: "Those children are playing in the park.",
-          words: ["Those", "children", "are", "playing", "in", "the", "park."]
+          correct: "That is dog.",
+          words: ["is", "That", "dog"]
         },
         {
           type: "jumbled",
-          correct: "An apple a day keeps the doctor away.",
-          words: ["An", "apple", "a", "day", "keeps", "the", "doctor", "away."]
+          correct: "These are pens.",
+          words: ["are", "These", "pens"]
         },
         {
           type: "jumbled",
-          correct: "She is reading a story book.",
-          words: ["She", "is", "reading", "a", "story", "book."]
+          correct: "Those are birds.",
+          words: ["are", "Those", "birds"]
         },
         {
           type: "jumbled",
-          correct: "The cat is sleeping on the mat.",
-          words: ["The", "cat", "is", "sleeping", "on", "the", "mat."]
+          correct: "This is ball.",
+          words: ["is", "This", "ball"]
+        },
+        {
+          type: "jumbled",
+          correct: "Those are chairs.",
+          words: ["are", "Those", "chairs"]
         }
       ]
     };
 
-    // ------------------- State -------------------
+    // ------------------- STATE -------------------
 
     let currentCategory = "demonstratives";
-    let orderMap = {};    // category -> shuffled index array
-    let positionMap = {}; // category -> current position in that array
-    let currentQuestionIndex = 0;
 
-    // ------------------- DOM refs -------------------
+    // For question order per category
+    let orderMap = {};   // category -> shuffled indices array
+    let indexMap = {};   // category -> current index in that array
+
+    // For scores per category
+    let scoreMap = {};   // category -> { asked, correct }
+
+    // To avoid double-counting on multiple checks of same question
+    let hasCheckedCurrentQuestion = false;
+
+    // ------------------- DOM REFS -------------------
 
     const tabButtons = document.querySelectorAll(".tab-btn");
     const questionTextEl = document.getElementById("question-text");
@@ -351,12 +383,14 @@
     const jumbledContainer = document.getElementById("jumbled-container");
     const feedbackEl = document.getElementById("feedback");
     const counterEl = document.getElementById("counter");
+    const scoreEl = document.getElementById("score");
     const answerStrip = document.getElementById("answer-strip");
     const jumbledChips = document.getElementById("jumbled-chips");
     const checkBtn = document.getElementById("check-btn");
     const nextBtn = document.getElementById("next-btn");
+    const resetBtn = document.getElementById("reset-btn");
 
-    // ------------------- Helpers -------------------
+    // ------------------- HELPERS -------------------
 
     function shuffleArray(arr) {
       const a = arr.slice();
@@ -369,29 +403,31 @@
       return a;
     }
 
-    function ensureOrder(category) {
+    function ensureCategory(category) {
       if (!orderMap[category]) {
         const len = questionBank[category].length;
         orderMap[category] = shuffleArray([...Array(len).keys()]);
-        positionMap[category] = 0;
+        indexMap[category] = 0;
+      }
+      if (!scoreMap[category]) {
+        scoreMap[category] = { asked: 0, correct: 0 };
       }
     }
 
-    function getNextQuestionIndex(category) {
-      ensureOrder(category);
-      const order = orderMap[category];
-      let pos = positionMap[category];
+    function getCurrentQuestionIndex(category) {
+      ensureCategory(category);
+      return orderMap[category][indexMap[category]];
+    }
 
-      if (pos >= order.length) {
-        // one full cycle completed; reshuffle
+    function advanceQuestion(category) {
+      ensureCategory(category);
+      indexMap[category] = indexMap[category] + 1;
+      const len = orderMap[category].length;
+      if (indexMap[category] >= len) {
+        // End of cycle: reshuffle, start again
         orderMap[category] = shuffleArray(orderMap[category]);
-        positionMap[category] = 0;
-        pos = 0;
+        indexMap[category] = 0;
       }
-
-      const idx = orderMap[category][pos];
-      positionMap[category] = pos + 1;
-      return idx;
     }
 
     function clearFeedback() {
@@ -399,11 +435,30 @@
       feedbackEl.className = "feedback";
     }
 
-    // ------------------- Rendering -------------------
+    function normalizeSentence(text) {
+      return text
+        .toLowerCase()
+        .replace(/[.?!]/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function updateScoreDisplay() {
+      ensureCategory(currentCategory);
+      const s = scoreMap[currentCategory];
+      scoreEl.textContent =
+        "Score this section: " + s.correct + " / " + s.asked;
+    }
+
+    // ------------------- RENDER -------------------
 
     function renderQuestion() {
+      ensureCategory(currentCategory);
+      hasCheckedCurrentQuestion = false;
+
       const qList = questionBank[currentCategory];
-      const q = qList[currentQuestionIndex];
+      const qIndex = getCurrentQuestionIndex(currentCategory);
+      const q = qList[qIndex];
 
       clearFeedback();
       optionsContainer.innerHTML = "";
@@ -411,7 +466,6 @@
       jumbledChips.innerHTML = "";
 
       if (q.type === "mcq") {
-        // MCQ mode
         jumbledContainer.style.display = "none";
         optionsContainer.style.display = "flex";
         questionTextEl.textContent = q.text;
@@ -434,7 +488,6 @@
         });
 
       } else if (q.type === "jumbled") {
-        // Jumbled, touch-based
         optionsContainer.style.display = "none";
         jumbledContainer.style.display = "block";
         questionTextEl.textContent = "Tap the words to make a correct sentence.";
@@ -457,7 +510,6 @@
             chosen.textContent = word;
 
             chosen.addEventListener("click", function () {
-              // remove from answer strip and free original chip
               chosen.remove();
               chip.classList.remove("used");
             });
@@ -470,63 +522,94 @@
       }
 
       const total = qList.length;
-      const used = positionMap[currentCategory] || 1;
-      counterEl.textContent = "Question " + used + " of " + total + " in this round";
+      const currentNumber = (indexMap[currentCategory] || 0) + 1;
+      counterEl.textContent =
+        "Question " + currentNumber + " of " + total + " in this round";
+
+      updateScoreDisplay();
     }
 
-    // ------------------- Checking answers -------------------
+    // ------------------- CHECKING -------------------
 
     function checkAnswer() {
-      const q = questionBank[currentCategory][currentQuestionIndex];
+      ensureCategory(currentCategory);
+      const qIndex = getCurrentQuestionIndex(currentCategory);
+      const q = questionBank[currentCategory][qIndex];
+
+      let correctNow = false;
 
       if (q.type === "mcq") {
-        const selectedBtn = document.querySelector(".option-btn[data-selected='true']");
+        const selectedBtn = document.querySelector(
+          ".option-btn[data-selected='true']"
+        );
 
         if (!selectedBtn) {
           feedbackEl.textContent = "Please select an option.";
-          feedbackEl.classList.add("incorrect");
+          feedbackEl.className = "feedback incorrect";
           return;
         }
 
         const chosen = selectedBtn.textContent;
+        const correct = q.answer;
 
-        if (chosen === q.answer) {
+        if (chosen === correct) {
           feedbackEl.textContent = "Correct!";
-          feedbackEl.classList.add("correct");
+          feedbackEl.className = "feedback correct";
+          correctNow = true;
         } else {
-          feedbackEl.textContent = 'Not quite. Correct answer: "' + q.answer + '".';
-          feedbackEl.classList.add("incorrect");
+          feedbackEl.textContent =
+            'Not quite. Correct answer: "' + correct + '".';
+          feedbackEl.className = "feedback incorrect";
         }
 
       } else if (q.type === "jumbled") {
-        const words = [];
-        for (let i = 0; i < answerStrip.children.length; i++) {
-          words.push(answerStrip.children[i].textContent);
-        }
+        const userWords = Array.from(answerStrip.children).map(function (el) {
+          return el.textContent;
+        });
 
-        if (words.length === 0) {
-          feedbackEl.textContent = "Tap words to build the sentence.";
-          feedbackEl.classList.add("incorrect");
+        if (userWords.length === 0) {
+          feedbackEl.textContent = "Tap the words to build the sentence.";
+          feedbackEl.className = "feedback incorrect";
           return;
         }
 
-        const userSentence = words.join(" ").trim();
-        const correctSentence = q.correct.trim();
+        const userSentence = normalizeSentence(userWords.join(" "));
+        const correctSentence = normalizeSentence(q.correct);
 
-        if (userSentence.toLowerCase() === correctSentence.toLowerCase()) {
+        if (userSentence === correctSentence) {
           feedbackEl.textContent = "Correct!";
-          feedbackEl.classList.add("correct");
+          feedbackEl.className = "feedback correct";
+          correctNow = true;
         } else {
-          feedbackEl.textContent = 'Check again. Correct sentence: "' + q.correct + '"';
-          feedbackEl.classList.add("incorrect");
+          feedbackEl.textContent =
+            'Try again. Correct sentence: "' + q.correct + '"';
+          feedbackEl.className = "feedback incorrect";
         }
+      }
+
+      // Update score only the FIRST time we check this question
+      if (!hasCheckedCurrentQuestion) {
+        scoreMap[currentCategory].asked += 1;
+        if (correctNow) {
+          scoreMap[currentCategory].correct += 1;
+        }
+        hasCheckedCurrentQuestion = true;
+        updateScoreDisplay();
       }
     }
 
-    // ------------------- Navigation -------------------
+    // ------------------- NAVIGATION -------------------
 
     function nextQuestion() {
-      currentQuestionIndex = getNextQuestionIndex(currentCategory);
+      advanceQuestion(currentCategory);
+      renderQuestion();
+    }
+
+    function resetSection() {
+      // Reset order and scores only for current category
+      delete orderMap[currentCategory];
+      delete indexMap[currentCategory];
+      scoreMap[currentCategory] = { asked: 0, correct: 0 };
       renderQuestion();
     }
 
@@ -543,18 +626,18 @@
         });
         btn.classList.add("active");
 
-        currentQuestionIndex = getNextQuestionIndex(currentCategory);
         renderQuestion();
       });
     });
 
     checkBtn.addEventListener("click", checkAnswer);
     nextBtn.addEventListener("click", nextQuestion);
+    resetBtn.addEventListener("click", resetSection);
 
-    // ------------------- Initial load -------------------
+    // ------------------- INIT -------------------
 
     (function init() {
-      currentQuestionIndex = getNextQuestionIndex(currentCategory);
+      ensureCategory(currentCategory);
       renderQuestion();
     })();
   </script>
