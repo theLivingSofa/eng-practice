@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>English Practice – Demonstratives, Articles & Jumbled Sentences</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f5f5f5;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .container {
+      background: #ffffff;
+      margin: 24px;
+      padding: 24px;
+      max-width: 700px;
+      width: 100%;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+      margin: 0 0 4px 0;
+      text-align: center;
+      font-size: 24px;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 16px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .tab-btn {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid #ccc;
+      background: #f3f4f6;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .tab-btn.active {
+      background: #2563eb;
+      color: #ffffff;
+      border-color: #2563eb;
+    }
+
+    .card {
+      background: #f9fafb;
+      padding: 16px;
+      border-radius: 12px;
+      margin-bottom: 12px;
+    }
+
+    .label {
+      font-size: 12px;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+
+    #question-text {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .option-btn {
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      background: #ffffff;
+      cursor: pointer;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    .option-btn.selected {
+      border-color: #2563eb;
+      background: #e0ecff;
+    }
+
+    #jumbled-container {
+      margin-top: 8px;
+    }
+
+    .chips-holder {
+      padding: 8px;
+      border-radius: 10px;
+      background: #eef2ff;
+      min-height: 46px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .chip {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #dbeafe;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .chip.used {
+      opacity: 0.4;
+      background: #9ca3af;
+      cursor: default;
+    }
+
+    .feedback {
+      font-size: 14px;
+      min-height: 20px;
+      margin-top: 6px;
+    }
+
+    .feedback.correct {
+      color: #16a34a;
+    }
+
+    .feedback.incorrect {
+      color: #dc2626;
+    }
+
+    .counter {
+      font-size: 12px;
+      color: #6b7280;
+      text-align: right;
+      margin-top: 4px;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+      justify-content: space-between;
+    }
+
+    button.primary {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: none;
+      background: #16a34a;
+      color: #ffffff;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    button.secondary {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid #cbd5f5;
+      background: #eff6ff;
+      color: #1d4ed8;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 480px) {
+      .controls {
+        flex-direction: column;
+      }
+      button.primary,
+      button.secondary {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>English Practice</h1>
+    <div class="subtitle">
+      Practice demonstratives, articles and jumbled sentences.<br>
+      Swati's son made it, please buy it from me. 🥲
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-category="demonstratives">Demonstratives</button>
+      <button class="tab-btn" data-category="articles">Articles</button>
+      <button class="tab-btn" data-category="jumbled">Jumbled Sentences</button>
+    </div>
+
+    <div class="card">
+      <div class="label">Question</div>
+      <div id="question-text"></div>
+
+      <!-- MCQ options -->
+      <div id="options-container" class="options"></div>
+
+      <!-- Jumbled sentence touch UI -->
+      <div id="jumbled-container" style="display:none;">
+        <div class="label">Tap words in correct order</div>
+        <div class="chips-holder" id="answer-strip"></div>
+        <div class="chips-holder" id="jumbled-chips"></div>
+      </div>
+
+      <div id="feedback" class="feedback"></div>
+      <div id="counter" class="counter"></div>
+    </div>
+
+    <div class="controls">
+      <button id="check-btn" class="primary">Check Answer</button>
+      <button id="next-btn" class="secondary">Next Question</button>
+    </div>
+  </div>
+
+  <script>
+    // ------------------- Question bank -------------------
+
+    const questionBank = {
+      demonstratives: [
+        {
+          type: "mcq",
+          text: "______ is my book on the table.",
+          options: ["This", "These", "Those", "They"],
+          answer: "This"
+        },
+        {
+          type: "mcq",
+          text: "______ are my friends standing over there.",
+          options: ["That", "These", "Those", "They"],
+          answer: "Those"
+        },
+        {
+          type: "mcq",
+          text: "Please pass me ______ pencil.",
+          options: ["This", "That", "Those", "These"],
+          answer: "That"
+        },
+        {
+          type: "mcq",
+          text: "______ apples in your hand look fresh.",
+          options: ["This", "These", "That", "They"],
+          answer: "These"
+        },
+        {
+          type: "mcq",
+          text: "______ is my sister; she is a doctor.",
+          options: ["Those", "These", "This", "They"],
+          answer: "This"
+        }
+      ],
+
+      articles: [
+        {
+          type: "mcq",
+          text: "I saw ______ elephant at the zoo.",
+          options: ["a", "an", "the"],
+          answer: "an"
+        },
+        {
+          type: "mcq",
+          text: "Please close ______ door.",
+          options: ["a", "an", "the"],
+          answer: "the"
+        },
+        {
+          type: "mcq",
+          text: "She is drinking ______ glass of milk.",
+          options: ["a", "an", "the"],
+          answer: "a"
+        },
+        {
+          type: "mcq",
+          text: "We went to ______ park near our house.",
+          options: ["a", "an", "the"],
+          answer: "the"
+        },
+        {
+          type: "mcq",
+          text: "He is ______ honest man.",
+          options: ["a", "an", "the"],
+          answer: "an"
+        }
+      ],
+
+      jumbled: [
+        {
+          type: "jumbled",
+          correct: "This is my favorite book.",
+          words: ["favorite", "This", "is", "my", "book."]
+        },
+        {
+          type: "jumbled",
+          correct: "Those children are playing in the park.",
+          words: ["Those", "children", "are", "playing", "in", "the", "park."]
+        },
+        {
+          type: "jumbled",
+          correct: "An apple a day keeps the doctor away.",
+          words: ["An", "apple", "a", "day", "keeps", "the", "doctor", "away."]
+        },
+        {
+          type: "jumbled",
+          correct: "She is reading a story book.",
+          words: ["She", "is", "reading", "a", "story", "book."]
+        },
+        {
+          type: "jumbled",
+          correct: "The cat is sleeping on the mat.",
+          words: ["The", "cat", "is", "sleeping", "on", "the", "mat."]
+        }
+      ]
+    };
+
+    // ------------------- State -------------------
+
+    let currentCategory = "demonstratives";
+    let orderMap = {};    // category -> shuffled index array
+    let positionMap = {}; // category -> current position in that array
+    let currentQuestionIndex = 0;
+
+    // ------------------- DOM refs -------------------
+
+    const tabButtons = document.querySelectorAll(".tab-btn");
+    const questionTextEl = document.getElementById("question-text");
+    const optionsContainer = document.getElementById("options-container");
+    const jumbledContainer = document.getElementById("jumbled-container");
+    const feedbackEl = document.getElementById("feedback");
+    const counterEl = document.getElementById("counter");
+    const answerStrip = document.getElementById("answer-strip");
+    const jumbledChips = document.getElementById("jumbled-chips");
+    const checkBtn = document.getElementById("check-btn");
+    const nextBtn = document.getElementById("next-btn");
+
+    // ------------------- Helpers -------------------
+
+    function shuffleArray(arr) {
+      const a = arr.slice();
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const tmp = a[i];
+        a[i] = a[j];
+        a[j] = tmp;
+      }
+      return a;
+    }
+
+    function ensureOrder(category) {
+      if (!orderMap[category]) {
+        const len = questionBank[category].length;
+        orderMap[category] = shuffleArray([...Array(len).keys()]);
+        positionMap[category] = 0;
+      }
+    }
+
+    function getNextQuestionIndex(category) {
+      ensureOrder(category);
+      const order = orderMap[category];
+      let pos = positionMap[category];
+
+      if (pos >= order.length) {
+        // one full cycle completed; reshuffle
+        orderMap[category] = shuffleArray(orderMap[category]);
+        positionMap[category] = 0;
+        pos = 0;
+      }
+
+      const idx = orderMap[category][pos];
+      positionMap[category] = pos + 1;
+      return idx;
+    }
+
+    function clearFeedback() {
+      feedbackEl.textContent = "";
+      feedbackEl.className = "feedback";
+    }
+
+    // ------------------- Rendering -------------------
+
+    function renderQuestion() {
+      const qList = questionBank[currentCategory];
+      const q = qList[currentQuestionIndex];
+
+      clearFeedback();
+      optionsContainer.innerHTML = "";
+      answerStrip.innerHTML = "";
+      jumbledChips.innerHTML = "";
+
+      if (q.type === "mcq") {
+        // MCQ mode
+        jumbledContainer.style.display = "none";
+        optionsContainer.style.display = "flex";
+        questionTextEl.textContent = q.text;
+
+        q.options.forEach(function (opt) {
+          const btn = document.createElement("button");
+          btn.className = "option-btn";
+          btn.textContent = opt;
+
+          btn.addEventListener("click", function () {
+            document.querySelectorAll(".option-btn").forEach(function (b) {
+              b.classList.remove("selected");
+              b.removeAttribute("data-selected");
+            });
+            btn.classList.add("selected");
+            btn.setAttribute("data-selected", "true");
+          });
+
+          optionsContainer.appendChild(btn);
+        });
+
+      } else if (q.type === "jumbled") {
+        // Jumbled, touch-based
+        optionsContainer.style.display = "none";
+        jumbledContainer.style.display = "block";
+        questionTextEl.textContent = "Tap the words to make a correct sentence.";
+
+        const shuffledWords = shuffleArray(q.words);
+
+        shuffledWords.forEach(function (word) {
+          const chip = document.createElement("div");
+          chip.className = "chip";
+          chip.textContent = word;
+
+          chip.addEventListener("click", function () {
+            if (chip.classList.contains("used")) {
+              return;
+            }
+            chip.classList.add("used");
+
+            const chosen = document.createElement("div");
+            chosen.className = "chip";
+            chosen.textContent = word;
+
+            chosen.addEventListener("click", function () {
+              // remove from answer strip and free original chip
+              chosen.remove();
+              chip.classList.remove("used");
+            });
+
+            answerStrip.appendChild(chosen);
+          });
+
+          jumbledChips.appendChild(chip);
+        });
+      }
+
+      const total = qList.length;
+      const used = positionMap[currentCategory] || 1;
+      counterEl.textContent = "Question " + used + " of " + total + " in this round";
+    }
+
+    // ------------------- Checking answers -------------------
+
+    function checkAnswer() {
+      const q = questionBank[currentCategory][currentQuestionIndex];
+
+      if (q.type === "mcq") {
+        const selectedBtn = document.querySelector(".option-btn[data-selected='true']");
+
+        if (!selectedBtn) {
+          feedbackEl.textContent = "Please select an option.";
+          feedbackEl.classList.add("incorrect");
+          return;
+        }
+
+        const chosen = selectedBtn.textContent;
+
+        if (chosen === q.answer) {
+          feedbackEl.textContent = "Correct!";
+          feedbackEl.classList.add("correct");
+        } else {
+          feedbackEl.textContent = 'Not quite. Correct answer: "' + q.answer + '".';
+          feedbackEl.classList.add("incorrect");
+        }
+
+      } else if (q.type === "jumbled") {
+        const words = [];
+        for (let i = 0; i < answerStrip.children.length; i++) {
+          words.push(answerStrip.children[i].textContent);
+        }
+
+        if (words.length === 0) {
+          feedbackEl.textContent = "Tap words to build the sentence.";
+          feedbackEl.classList.add("incorrect");
+          return;
+        }
+
+        const userSentence = words.join(" ").trim();
+        const correctSentence = q.correct.trim();
+
+        if (userSentence.toLowerCase() === correctSentence.toLowerCase()) {
+          feedbackEl.textContent = "Correct!";
+          feedbackEl.classList.add("correct");
+        } else {
+          feedbackEl.textContent = 'Check again. Correct sentence: "' + q.correct + '"';
+          feedbackEl.classList.add("incorrect");
+        }
+      }
+    }
+
+    // ------------------- Navigation -------------------
+
+    function nextQuestion() {
+      currentQuestionIndex = getNextQuestionIndex(currentCategory);
+      renderQuestion();
+    }
+
+    tabButtons.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        const cat = btn.getAttribute("data-category");
+        if (cat === currentCategory) {
+          return;
+        }
+
+        currentCategory = cat;
+        tabButtons.forEach(function (b) {
+          b.classList.remove("active");
+        });
+        btn.classList.add("active");
+
+        currentQuestionIndex = getNextQuestionIndex(currentCategory);
+        renderQuestion();
+      });
+    });
+
+    checkBtn.addEventListener("click", checkAnswer);
+    nextBtn.addEventListener("click", nextQuestion);
+
+    // ------------------- Initial load -------------------
+
+    (function init() {
+      currentQuestionIndex = getNextQuestionIndex(currentCategory);
+      renderQuestion();
+    })();
+  </script>
+</body>
+</html>
