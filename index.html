@@ -14,7 +14,7 @@
     body {
       margin: 0;
       padding: 0;
-      background: #f5f5f5;
+      background: radial-gradient(circle at top, #bfdbfe 0, #f9fafb 40%, #e5e7eb 100%);
       min-height: 100vh;
       display: flex;
       justify-content: center;
@@ -25,40 +25,82 @@
       background: #ffffff;
       margin: 24px;
       padding: 24px;
-      max-width: 700px;
+      max-width: 760px;
       width: 100%;
-      border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      border-radius: 24px;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
 
     h1 {
-      margin: 0 0 4px 0;
-      text-align: center;
-      font-size: 24px;
+      margin: 0;
+      font-size: 26px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .subtitle {
-      text-align: center;
       font-size: 14px;
-      color: #666;
-      margin-bottom: 16px;
+      color: #4b5563;
+    }
+
+    .mascot {
+      font-size: 40px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+    }
+
+    .chips-row {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .chips-row span {
+      font-size: 22px;
+      background: #eff6ff;
+      padding: 4px 8px;
+      border-radius: 999px;
     }
 
     .tabs {
       display: flex;
-      gap: 8px;
+      gap: 10px;
       justify-content: center;
       flex-wrap: wrap;
-      margin-bottom: 16px;
+      margin: 16px 0;
     }
 
     .tab-btn {
       padding: 8px 14px;
       border-radius: 999px;
-      border: 1px solid #ccc;
+      border: 1px solid #cbd5e1;
       background: #f3f4f6;
       cursor: pointer;
       font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tab-icon {
+      font-size: 16px;
     }
 
     .tab-btn.active {
@@ -70,8 +112,9 @@
     .card {
       background: #f9fafb;
       padding: 16px;
-      border-radius: 12px;
+      border-radius: 16px;
       margin-bottom: 12px;
+      border: 1px solid #e5e7eb;
     }
 
     .label {
@@ -96,12 +139,28 @@
 
     .option-btn {
       padding: 10px 12px;
-      border-radius: 8px;
+      border-radius: 10px;
       border: 1px solid #d1d5db;
       background: #ffffff;
       cursor: pointer;
       text-align: left;
-      font-size: 14px;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .option-bullet {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      border: 2px solid #9ca3af;
+      flex-shrink: 0;
+    }
+
+    .option-btn.selected .option-bullet {
+      border-color: #2563eb;
+      background: #2563eb;
     }
 
     .option-btn.selected {
@@ -124,12 +183,19 @@
       margin-bottom: 8px;
     }
 
+    .chips-holder.answer {
+      background: #dcfce7;
+    }
+
     .chip {
       padding: 6px 10px;
       border-radius: 999px;
       background: #dbeafe;
       font-size: 14px;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }
 
     .chip.used {
@@ -152,18 +218,26 @@
       color: #dc2626;
     }
 
+    .status-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 6px;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
     .counter {
       font-size: 12px;
       color: #6b7280;
       text-align: right;
-      margin-top: 4px;
     }
 
     .score {
       font-size: 12px;
       color: #374151;
       text-align: left;
-      margin-top: 4px;
+      font-weight: 500;
     }
 
     .controls {
@@ -176,10 +250,13 @@
 
     button.primary,
     button.secondary {
-      padding: 12px 24px;
-      font-size: 16px;
-      border-radius: 12px;
+      padding: 10px 20px;
+      font-size: 15px;
+      border-radius: 999px;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
 
     button.primary {
@@ -194,7 +271,16 @@
       color: #1d4ed8;
     }
 
+    button.primary span,
+    button.secondary span {
+      font-size: 16px;
+    }
+
     @media (max-width: 480px) {
+      .container {
+        margin: 12px;
+        padding: 16px;
+      }
       .controls {
         flex-direction: column;
       }
@@ -202,23 +288,77 @@
       button.primary,
       button.secondary {
         width: 100%;
+        justify-content: center;
+      }
+    }
+
+    /* Confetti */
+
+    #confetti-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 0;
+      pointer-events: none;
+      overflow: visible;
+      z-index: 9999;
+    }
+
+    .confetti-piece {
+      position: fixed;
+      width: 8px;
+      height: 14px;
+      background: #f97316;
+      opacity: 0.9;
+      border-radius: 2px;
+      animation: fall 1600ms linear forwards;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translate3d(0, -20px, 0) rotateZ(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translate3d(0, 120vh, 0) rotateZ(360deg);
+        opacity: 0;
       }
     }
   </style>
 </head>
 
 <body>
+  <div id="confetti-container"></div>
+
   <div class="container">
-    <h1>English Practice</h1>
-    <div class="subtitle">
-      Practice demonstratives, articles and jumbled sentences.<br>
-      Swati's son made it, please buy it from me. 🥲
+    <div class="header">
+      <div class="title-block">
+        <h1>✨ English Fun Time</h1>
+        <div class="subtitle">
+          Practice <strong>this/that/these/those</strong>, <strong>a/an/the</strong> and jumbled sentences.<br>
+          Swati's son made it, please buy it from me. 🥲
+        </div>
+      </div>
+      <div class="mascot">🦊📚</div>
+    </div>
+
+    <div class="chips-row">
+      <span>📘 This / That / These / Those</span>
+      <span>✏️ a / an / the</span>
+      <span>🧩 Make a sentence</span>
     </div>
 
     <div class="tabs">
-      <button class="tab-btn active" data-category="demonstratives">Demonstratives</button>
-      <button class="tab-btn" data-category="articles">Articles</button>
-      <button class="tab-btn" data-category="jumbled">Jumbled Sentences</button>
+      <button class="tab-btn active" data-category="demonstratives">
+        <span class="tab-icon">🎯</span> Demonstratives
+      </button>
+      <button class="tab-btn" data-category="articles">
+        <span class="tab-icon">✏️</span> Articles
+      </button>
+      <button class="tab-btn" data-category="jumbled">
+        <span class="tab-icon">🧩</span> Jumbled Sentences
+      </button>
     </div>
 
     <div class="card">
@@ -231,18 +371,27 @@
       <!-- Jumbled sentence touch UI -->
       <div id="jumbled-container" style="display:none;">
         <div class="label">Tap words in correct order</div>
-        <div class="chips-holder" id="answer-strip"></div>
+        <div class="chips-holder answer" id="answer-strip"></div>
         <div class="chips-holder" id="jumbled-chips"></div>
       </div>
 
       <div id="feedback" class="feedback"></div>
-      <div id="counter" class="counter"></div>
-      <div id="score" class="score"></div>
+
+      <div class="status-row">
+        <div id="score" class="score"></div>
+        <div id="counter" class="counter"></div>
+      </div>
 
       <div class="controls">
-        <button id="check-btn" class="primary">Check Answer</button>
-        <button id="next-btn" class="secondary">Next Question</button>
-        <button id="reset-btn" class="secondary">Reset Section</button>
+        <button id="check-btn" class="primary">
+          <span>✅</span> Check Answer
+        </button>
+        <button id="next-btn" class="secondary">
+          <span>➡️</span> Next Question
+        </button>
+        <button id="reset-btn" class="secondary">
+          <span>🔁</span> Reset Section
+        </button>
       </div>
     </div>
   </div>
@@ -389,6 +538,7 @@
     const checkBtn = document.getElementById("check-btn");
     const nextBtn = document.getElementById("next-btn");
     const resetBtn = document.getElementById("reset-btn");
+    const confettiContainer = document.getElementById("confetti-container");
 
     // ------------------- HELPERS -------------------
 
@@ -450,6 +600,33 @@
         "Score this section: " + s.correct + " / " + s.asked;
     }
 
+    // ------------------- CONFETTI -------------------
+
+    function triggerConfetti() {
+      const pieces = 60;
+      const colors = ["#f97316", "#22c55e", "#3b82f6", "#ec4899", "#eab308"];
+
+      for (let i = 0; i < pieces; i++) {
+        const piece = document.createElement("div");
+        piece.className = "confetti-piece";
+        const left = Math.random() * 100;  // vw
+        const delay = Math.random() * 300;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const rotate = Math.floor(Math.random() * 360);
+
+        piece.style.left = left + "vw";
+        piece.style.background = color;
+        piece.style.transform = `translate3d(0, -20px, 0) rotateZ(${rotate}deg)`;
+        piece.style.animationDelay = delay + "ms";
+
+        confettiContainer.appendChild(piece);
+
+        setTimeout(() => {
+          piece.remove();
+        }, 2000);
+      }
+    }
+
     // ------------------- RENDER -------------------
 
     function renderQuestion() {
@@ -473,7 +650,15 @@
         q.options.forEach(function (opt) {
           const btn = document.createElement("button");
           btn.className = "option-btn";
-          btn.textContent = opt;
+
+          const bullet = document.createElement("div");
+          bullet.className = "option-bullet";
+
+          const label = document.createElement("span");
+          label.textContent = opt;
+
+          btn.appendChild(bullet);
+          btn.appendChild(label);
 
           btn.addEventListener("click", function () {
             document.querySelectorAll(".option-btn").forEach(function (b) {
@@ -549,13 +734,14 @@
           return;
         }
 
-        const chosen = selectedBtn.textContent;
+        const chosen = selectedBtn.textContent.trim();
         const correct = q.answer;
 
         if (chosen === correct) {
-          feedbackEl.textContent = "Correct!";
+          feedbackEl.textContent = "Correct! 🎉";
           feedbackEl.className = "feedback correct";
           correctNow = true;
+          triggerConfetti();
         } else {
           feedbackEl.textContent =
             'Not quite. Correct answer: "' + correct + '".';
@@ -577,9 +763,10 @@
         const correctSentence = normalizeSentence(q.correct);
 
         if (userSentence === correctSentence) {
-          feedbackEl.textContent = "Correct!";
+          feedbackEl.textContent = "Correct! 🎉";
           feedbackEl.className = "feedback correct";
           correctNow = true;
+          triggerConfetti();
         } else {
           feedbackEl.textContent =
             'Try again. Correct sentence: "' + q.correct + '"';
